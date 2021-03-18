@@ -42,3 +42,21 @@ export const storeSchedule = async (req: Request, res: Response, next: NextFunct
     });
   }
 };
+
+export const fetchScheduleList = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { movieID } = req.params;
+    const currentMovieSchedule = await Schedule.find({ movieUUID: movieID });
+    return res.status(200).json({
+      status: 'success',
+      currentMovieSchedule: currentMovieSchedule,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(400).json({
+      success: 'false',
+      message: e.message,
+      code: e.code,
+    });
+  }
+};
