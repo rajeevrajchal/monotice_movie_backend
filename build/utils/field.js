@@ -94,10 +94,10 @@ var rEnum = function (values) { return ({
     required: true,
 }); };
 exports.rEnum = rEnum;
-var dEnum = function (values) { return ({
+var dEnum = function (values, dValue) { return ({
     type: String,
     enum: values,
-    default: values[0],
+    default: dValue,
     required: false,
 }); };
 exports.dEnum = dEnum;

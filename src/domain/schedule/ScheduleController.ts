@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import Movie from '../movie/Movie';
 import Schedule from './Schedule';
 import { $FIXME } from '../../constant';
+import Suggestion from '../suggestion/Suggestion';
 
 export const storeSchedule = async (req: Request, res: Response, next: NextFunction) => {
   try {

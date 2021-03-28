@@ -5,7 +5,7 @@ import { ScheduleStatus } from './ScheduleEnum';
 const scheduleSchema = new Schema(
   {
     slot: rString,
-    status: dEnum(ScheduleStatus),
+    status: dEnum(ScheduleStatus, ScheduleStatus.deactivate),
     uploader: uObject,
     movieUUID: uString,
     uploaderUUID: uString,

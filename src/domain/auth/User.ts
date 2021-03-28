@@ -8,7 +8,7 @@ const userSchema = new Schema(
     email: urEmail,
     password: rString,
     address: uString,
-    role: dEnum(UserEnum),
+    role: dEnum(UserEnum, UserEnum.admin),
   },
   { timestamps: true }
 );

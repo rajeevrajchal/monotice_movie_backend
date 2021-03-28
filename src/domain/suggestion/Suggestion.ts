@@ -6,7 +6,7 @@ const suggestionSchema = new Schema(
   {
     name_movie: rString,
     movie_reference: uString,
-    status: dEnum(SuggestionStatus),
+    status: dEnum(SuggestionStatus, SuggestionStatus.active),
   },
   { timestamps: true }
 );

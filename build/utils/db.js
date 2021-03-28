@@ -45,6 +45,7 @@ dotenv_1.default.config();
 var MONGODB_URI = process.env.MONGODB_URI;
 var options = {
     useNewUrlParser: true,
+    useFindAndModify: false,
     useCreateIndex: true,
     useUnifiedTopology: true,
     promiseLibrary: global.Promise,

@@ -22,3 +22,29 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
     });
   }
 };
+
+export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  console.log('hello world');
+  try {
+    const { userUUID } = req.params;
+    console.log(req.params);
+    const users = await User.findOneAndDelete({ _id: userUUID });
+    if (users) {
+      return res.status(200).json({
+        status: 'success',
+        users: users,
+      });
+    } else {
+      res.status(401).json({
+        success: 'false',
+        message: 'Failed to Delete User',
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(400).json({
+      success: 'false',
+      message: e.message,
+    });
+  }
+};

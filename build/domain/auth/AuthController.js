@@ -41,43 +41,51 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.register = exports.login = void 0;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var bcryptjs_1 = __importDefault(require("bcryptjs"));
 var User_1 = __importDefault(require("./User"));
+var userEnum_1 = require("./userEnum");
 var generateToken = function (user) {
-    // const secrete = process.env.SECRET_KEY;
+    var secrete = process.env.SECRET_KEY;
     var payload = {
         user: {
-            id: user.id,
-            name: user.first_name,
+            id: user._id,
+            name: user.name,
             role: user.role,
         },
     };
-    return jsonwebtoken_1.default.sign(payload, 'secrete', {
+    return jsonwebtoken_1.default.sign(payload, secrete, {
         algorithm: 'HS256',
         expiresIn: 3600,
     });
 };
 var encryptPassword = function (password) {
-    console.log('password');
-    return;
+    return bcryptjs_1.default.hash(password, 12);
+};
+var comparePassword = function (reqPassword, user) {
+    return bcryptjs_1.default.compare(reqPassword, user.password);
 };
 var login = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var email, user, token, e_1;
+    var email, user, isMatch, token, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 4]);
+                _a.trys.push([0, 5, , 6]);
                 email = req.body.email;
                 return [4 /*yield*/, User_1.default.findOne({ email: email })];
             case 1:
                 user = _a.sent();
                 if (!user) {
-                    res.status(400).json({
+                    res.status(401).json({
                         success: 'false',
-                        message: 'cannot get user',
+                        message: 'Authentication failed',
                     });
                 }
-                return [4 /*yield*/, generateToken(user)];
+                return [4 /*yield*/, comparePassword(req.body.password, user)];
             case 2:
+                isMatch = _a.sent();
+                if (!isMatch) return [3 /*break*/, 4];
+                return [4 /*yield*/, generateToken(user)];
+            case 3:
                 token = _a.sent();
                 if (token) {
                     return [2 /*return*/, res.status(200).json({
@@ -86,51 +94,72 @@ var login = function (req, res, next) { return __awaiter(void 0, void 0, void 0,
                             token: token,
                         })];
                 }
-                res.status(400).json({
+                res.status(401).json({
                     success: 'false',
-                    message: 'cannot get user',
+                    message: 'Authentication failed',
                 });
-                return [3 /*break*/, 4];
-            case 3:
+                _a.label = 4;
+            case 4:
+                res.status(401).json({
+                    success: 'false',
+                    message: 'Authentication failed',
+                });
+                return [3 /*break*/, 6];
+            case 5:
                 e_1 = _a.sent();
-                res.status(400).json({
+                res.status(401).json({
                     success: 'false',
-                    message: 'cannot get user',
+                    message: 'Authentication failed',
                 });
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
         }
     });
 }); };
 exports.login = login;
 var register = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var password, encryptedPassword;
-    return __generator(this, function (_a) {
-        try {
-            password = req.body.password;
-            encryptedPassword = encryptPassword(password);
-            console.log(encryptedPassword);
-            // const user = await User.create(req.body);
-            // if (user) {
-            //   return res.status(201).json({
-            //     status: 'success',
-            //     users: user,
-            //   });
-            // } else {
-            //   res.status(400).json({
-            //     success: 'false',
-            //     message: 'cannot get user',
-            //   });
-            // }
+    var password, encryptedPassword, user, e_2;
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 3, , 4]);
+                password = req.body.password;
+                return [4 /*yield*/, encryptPassword(password)];
+            case 1:
+                encryptedPassword = _b.sent();
+                return [4 /*yield*/, User_1.default.create({
+                        name: req.body.name,
+                        email: req.body.email,
+                        password: encryptedPassword,
+                        address: req.body.address,
+                        role: (_a = req.body.role) !== null && _a !== void 0 ? _a : userEnum_1.UserEnum.admin,
+                    })];
+            case 2:
+                user = _b.sent();
+                if (user) {
+                    return [2 /*return*/, res.status(201).json({
+                            status: 'success',
+                            users: user,
+                        })];
+                }
+                else {
+                    res.status(400).json({
+                        success: 'false',
+                        message: 'cannot store user',
+                    });
+                }
+                return [3 /*break*/, 4];
+            case 3:
+                e_2 = _b.sent();
+                res.status(400).json({
+                    success: 'false',
+                    message: e_2.message,
+                    code: e_2.code,
+                });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
-        catch (e) {
-            res.status(400).json({
-                success: 'false',
-                message: e.message,
-                code: e.code,
-            });
-        }
-        return [2 /*return*/];
     });
 }); };
 exports.register = register;

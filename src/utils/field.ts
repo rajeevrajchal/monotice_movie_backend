@@ -102,10 +102,10 @@ export const rEnum = (values: $FIXME) => ({
   enum: values,
   required: true,
 });
-export const dEnum = (values: $FIXME) => ({
+export const dEnum = (values: $FIXME, dValue: $FIXME) => ({
   type: String,
   enum: values,
-  default: values[0],
+  default: dValue,
   required: false,
 });
 export const uEnum = (values: $FIXME) => ({

@@ -24,9 +24,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = __importStar(require("express"));
 var AuthRoute_1 = __importDefault(require("../domain/auth/AuthRoute"));
+var MovieRoute_1 = __importDefault(require("../domain/movie/MovieRoute"));
+var ScheduleRoute_1 = __importDefault(require("../domain/schedule/ScheduleRoute"));
+var UserRoute_1 = __importDefault(require("../domain/user/UserRoute"));
+var SuggestionRoute_1 = __importDefault(require("../domain/suggestion/SuggestionRoute"));
+var PaypalRoute_1 = __importDefault(require("../domain/paypal/PaypalRoute"));
 var router = express.Router();
 //apis
 router.use('/api/auth', AuthRoute_1.default);
+router.use('/api/users', UserRoute_1.default);
+router.use('/api/movie/', MovieRoute_1.default);
+router.use('/api/schedule/movie', ScheduleRoute_1.default);
+router.use('/api/suggestion/', SuggestionRoute_1.default);
+router.use('/api/paypal/', PaypalRoute_1.default);
 //by default routes
 router.get('/', function (req, res) {
     res.send({

@@ -11,6 +11,7 @@ var validateRule = function (req, res, next) {
         var _a;
         return extractedErrors.push((_a = {}, _a[err.param] = err.msg, _a));
     });
+    console.log(extractedErrors);
     return res.status(422).json({
         type: 'error',
         name: 'Entities Error',

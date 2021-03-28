@@ -5,6 +5,7 @@ import { MovieStatus } from './MovieEnum';
 export const fetchCurrentMovie = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const current_movie = await Movie.findOne({ status: MovieStatus.current });
+    console.log(current_movie);
     if (current_movie) {
       return res.status(200).json({
         status: 'success',
@@ -17,6 +18,7 @@ export const fetchCurrentMovie = async (req: Request, res: Response, next: NextF
       });
     }
   } catch (e) {
+    console.log(e);
     res.status(400).json({
       success: 'false',
       message: e.message,

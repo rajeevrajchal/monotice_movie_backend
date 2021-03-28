@@ -27,7 +27,7 @@ var userSchema = new mongoose_1.Schema({
     email: field_1.urEmail,
     password: field_1.rString,
     address: field_1.uString,
-    role: field_1.dEnum(userEnum_1.UserEnum),
+    role: field_1.dEnum(userEnum_1.UserEnum, userEnum_1.UserEnum.admin),
 }, { timestamps: true });
 var User = mongoose_1.default.model('users', userSchema);
 exports.default = User;
