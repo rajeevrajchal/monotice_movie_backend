@@ -1,7 +1,7 @@
 import express from 'express';
 import checkPermission from '../../middleware/checkPermission';
 import { UserEnum } from '../auth/userEnum';
-import { fetchCurrentMovie, fetchMovie, storeMovie } from './MovieController';
+import { deleteMovie, fetchCurrentMovie, fetchMovie, storeMovie, updateMovie } from './MovieController';
 import validateToken from '../../middleware/validateToken';
 
 const movieRoute = express.Router();
@@ -11,5 +11,7 @@ const movieRoute = express.Router();
 movieRoute.get('', fetchCurrentMovie);
 movieRoute.get('/movie-list', [validateToken, checkPermission([UserEnum.admin, UserEnum.super_admin])], fetchMovie);
 movieRoute.post('', [validateToken, checkPermission([UserEnum.admin, UserEnum.super_admin])], storeMovie);
+movieRoute.post('/:movieUUID', [validateToken, checkPermission([UserEnum.admin, UserEnum.super_admin])], updateMovie);
+movieRoute.delete('/:movieUUID', [validateToken, checkPermission([UserEnum.admin, UserEnum.super_admin])], deleteMovie);
 
 export default movieRoute;
