@@ -23,6 +23,31 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
+export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { userUUID } = req.params;
+    console.log(userUUID);
+    console.log(req.body);
+    const user = await User.findOneAndUpdate({ _id: userUUID }, req.body);
+    if (user) {
+      return res.status(200).json({
+        status: 'success',
+        user: user,
+      });
+    } else {
+      res.status(401).json({
+        success: 'false',
+        message: 'Failed to update user',
+      });
+    }
+  } catch (e) {
+    res.status(400).json({
+      success: 'false',
+      message: e.message,
+    });
+  }
+};
+
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   console.log('hello world');
   try {
