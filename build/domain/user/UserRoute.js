@@ -10,6 +10,8 @@ var checkPermission_1 = __importDefault(require("../../middleware/checkPermissio
 var userEnum_1 = require("../auth/userEnum");
 var userRoute = express_1.default.Router();
 //USER LOGIN
-userRoute.get('', [validateToken_1.default, checkPermission_1.default([userEnum_1.UserEnum.admin, userEnum_1.UserEnum.super_admin])], UserController_1.getUsers);
+userRoute.get('', [validateToken_1.default, checkPermission_1.default([userEnum_1.UserEnum.super_admin])], UserController_1.getUsers);
+userRoute.post('/:userUUID', [validateToken_1.default, checkPermission_1.default([userEnum_1.UserEnum.super_admin])], UserController_1.updateUser);
+userRoute.delete('/:userUUID', [validateToken_1.default, checkPermission_1.default([userEnum_1.UserEnum.super_admin])], UserController_1.deleteUser);
 exports.default = userRoute;
 //# sourceMappingURL=UserRoute.js.map

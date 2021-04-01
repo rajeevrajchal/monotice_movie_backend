@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUsers = void 0;
+exports.deleteUser = exports.updateUser = exports.getUsers = void 0;
 var User_1 = __importDefault(require("../auth/User"));
 var getUsers = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var users, e_1;
@@ -75,4 +75,81 @@ var getUsers = function (req, res, next) { return __awaiter(void 0, void 0, void
     });
 }); };
 exports.getUsers = getUsers;
+var updateUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var userUUID, user, e_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                userUUID = req.params.userUUID;
+                console.log(userUUID);
+                console.log(req.body);
+                return [4 /*yield*/, User_1.default.findOneAndUpdate({ _id: userUUID }, req.body)];
+            case 1:
+                user = _a.sent();
+                if (user) {
+                    return [2 /*return*/, res.status(200).json({
+                            status: 'success',
+                            user: user,
+                        })];
+                }
+                else {
+                    res.status(401).json({
+                        success: 'false',
+                        message: 'Failed to update user',
+                    });
+                }
+                return [3 /*break*/, 3];
+            case 2:
+                e_2 = _a.sent();
+                res.status(400).json({
+                    success: 'false',
+                    message: e_2.message,
+                });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.updateUser = updateUser;
+var deleteUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var userUUID, users, e_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.log('hello world');
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                userUUID = req.params.userUUID;
+                console.log(req.params);
+                return [4 /*yield*/, User_1.default.findOneAndDelete({ _id: userUUID })];
+            case 2:
+                users = _a.sent();
+                if (users) {
+                    return [2 /*return*/, res.status(200).json({
+                            status: 'success',
+                            users: users,
+                        })];
+                }
+                else {
+                    res.status(401).json({
+                        success: 'false',
+                        message: 'Failed to Delete User',
+                    });
+                }
+                return [3 /*break*/, 4];
+            case 3:
+                e_3 = _a.sent();
+                console.log(e_3);
+                res.status(400).json({
+                    success: 'false',
+                    message: e_3.message,
+                });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.deleteUser = deleteUser;
 //# sourceMappingURL=UserController.js.map

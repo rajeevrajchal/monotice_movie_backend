@@ -51,7 +51,6 @@ var fetchCurrentMovie = function (req, res, next) { return __awaiter(void 0, voi
                 return [4 /*yield*/, Movie_1.default.findOne({ status: MovieEnum_1.MovieStatus.current })];
             case 1:
                 current_movie = _a.sent();
-                console.log(current_movie);
                 if (current_movie) {
                     return [2 /*return*/, res.status(200).json({
                             status: 'success',

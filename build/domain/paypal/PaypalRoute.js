@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var PayPalController_1 = require("./PayPalController");
 var paypalRoute = express_1.default.Router();
-paypalRoute.get('', PayPalController_1.paymentProcess);
+paypalRoute.post('', PayPalController_1.paymentProcess);
+paypalRoute.get('/success', PayPalController_1.successPaypal);
 exports.default = paypalRoute;
 //# sourceMappingURL=PaypalRoute.js.map

@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.paymentProcess = void 0;
+exports.successPaypal = exports.paymentProcess = void 0;
 var paypal_rest_sdk_1 = __importDefault(require("paypal-rest-sdk"));
 paypal_rest_sdk_1.default.configure({
     mode: 'sandbox',
@@ -47,9 +47,58 @@ paypal_rest_sdk_1.default.configure({
     client_secret: 'ECMBPLqayrlSoME75EbqelYu5Ym-6iNkFcJ8Ch472SId2Zm2OUF9IcMOXWIoWFzASNbG434ZcWSjU1qE',
 });
 var paymentProcess = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var create_payment_json;
     return __generator(this, function (_a) {
         try {
             console.log('payment request');
+            create_payment_json = {
+                intent: 'sale',
+                payer: {
+                    payment_method: 'paypal',
+                },
+                redirect_urls: {
+                    return_url: 'http://localhost:3000/success',
+                    cancel_url: 'http://localhost:8000/api/paypal/cancel',
+                },
+                transactions: [
+                    {
+                        item_list: {
+                            items: [
+                                {
+                                    name: 'Donation',
+                                    sku: 'donate',
+                                    price: '1.00',
+                                    currency: 'USD',
+                                    quantity: 1,
+                                },
+                            ],
+                        },
+                        amount: {
+                            currency: 'USD',
+                            total: '1.00',
+                        },
+                        description: 'This is the test payment description.',
+                    },
+                ],
+            };
+            paypal_rest_sdk_1.default.payment.create(create_payment_json, function (error, payment) {
+                if (error) {
+                    console.log(error);
+                    throw error;
+                }
+                else {
+                    // @ts-ignore
+                    for (var i = 0; i < payment.links.length; i++) {
+                        // @ts-ignore
+                        if (payment.links[i].rel === 'approval_url') {
+                            // @ts-ignore
+                            console.log(payment.links[i].href);
+                            // @ts-ignore
+                            res.redirect(payment.links[i].href);
+                        }
+                    }
+                }
+            });
         }
         catch (e) {
             console.log(e);
@@ -63,4 +112,12 @@ var paymentProcess = function (req, res, next) { return __awaiter(void 0, void 0
     });
 }); };
 exports.paymentProcess = paymentProcess;
+var successPaypal = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        console.log('the success');
+        console.log(req);
+        return [2 /*return*/];
+    });
+}); };
+exports.successPaypal = successPaypal;
 //# sourceMappingURL=PayPalController.js.map
