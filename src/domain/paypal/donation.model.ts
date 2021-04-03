@@ -1,9 +1,14 @@
 import mongoose, { Schema } from 'mongoose';
-import { rString } from '../../utils/field';
+import { rEmail, rString, unEmail } from '../../utils/field';
 
 const donationSchema = new Schema(
   {
     name: rString,
+    country_code: rString,
+    currency: rString,
+    amount: rString,
+    email: unEmail,
+    payment_id: rString,
   },
   { timestamps: true }
 );

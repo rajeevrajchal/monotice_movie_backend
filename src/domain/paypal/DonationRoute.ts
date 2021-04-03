@@ -1,8 +1,9 @@
 import express from 'express';
-import { paymentComplete } from './PayPalController';
+import { donationComplete, fetchAllDonation } from './DonationController';
 
-const paypalRoute = express.Router();
+const donationRoute = express.Router();
 
-paypalRoute.post('', paymentComplete);
+donationRoute.post('', donationComplete);
+donationRoute.get('', fetchAllDonation);
 
-export default paypalRoute;
+export default donationRoute;
