@@ -69,14 +69,12 @@ export const checkScheduleTime = async (req: Request, res: Response, next: NextF
     console.log(Date.parse(moviePlayTime));
     if (Date.parse(currentDate) >= Date.parse(moviePlayTime)) {
       const exceedTime = Math.abs(Date.parse(currentDate) - Date.parse(moviePlayTime));
-      console.log(exceedTime);
       res.status(200).json({
         success: true,
         message: 'Movie Play Time is exceed ',
         exceedTime: exceedTime,
       });
     } else {
-      console.log('time is not comes');
       res.status(200).json({
         success: false,
         message: 'Movie Time is not approaching ',
