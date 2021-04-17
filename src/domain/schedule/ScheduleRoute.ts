@@ -1,13 +1,20 @@
 import express from 'express';
+import {
+  checkScheduleTime,
+  deleteSchedule,
+  disableSchedule,
+  fetchScheduleList,
+  storeSchedule,
+} from './ScheduleController';
 import checkPermission from '../../middleware/checkPermission';
 import { UserEnum } from '../auth/userEnum';
-import { fetchScheduleList, storeSchedule } from './ScheduleController';
 
-const scheduleRoute = express.Router();
+const movieScheduleRoute = express.Router();
 
-//USER LOGIN
-// authRoute.post('/admin-movie', [checkPermission([UserEnum.admin, UserEnum.super_admin])], fetchMovie);
-scheduleRoute.post('', [checkPermission([UserEnum.admin, UserEnum.super_admin])], storeSchedule);
-scheduleRoute.get('/:movieID', fetchScheduleList);
+movieScheduleRoute.get('/movie-time/:moviePlayTime', checkScheduleTime);
+movieScheduleRoute.post('', [checkPermission([UserEnum.admin, UserEnum.super_admin])], storeSchedule);
+movieScheduleRoute.get('/:movieID', fetchScheduleList);
+movieScheduleRoute.post('/:scheduleUUID', disableSchedule);
+movieScheduleRoute.delete('/:scheduleUUID', deleteSchedule);
 
-export default scheduleRoute;
+export default movieScheduleRoute;

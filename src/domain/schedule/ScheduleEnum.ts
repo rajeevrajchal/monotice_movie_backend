@@ -1,4 +1,4 @@
 export enum ScheduleStatus {
-  'active',
   'deactivate',
+  'active',
 }
