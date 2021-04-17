@@ -26,6 +26,31 @@ export const fetchCurrentMovie = async (req: Request, res: Response, next: NextF
   }
 };
 
+export const fetchMovieLink = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { movieUUID } = req.params;
+    const current_movie = await Movie.findOne({ _id: movieUUID });
+    if (current_movie) {
+      return res.status(200).json({
+        status: 'success',
+        movie: current_movie,
+      });
+    } else {
+      res.status(400).json({
+        success: 'false',
+        message: 'No Movie',
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(400).json({
+      success: 'false',
+      message: e.message,
+      code: e.code,
+    });
+  }
+};
+
 export const fetchMovie = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const movie = await Movie.find();
@@ -75,7 +100,7 @@ export const storeMovie = async (req: Request, res: Response, next: NextFunction
 export const updateMovie = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { movieUUID } = req.params;
-    console.log(movieUUID);
+    console.log(req.body);
     const movie = await Movie.findOneAndUpdate({ _id: movieUUID }, req.body);
     if (movie) {
       return res.status(201).json({

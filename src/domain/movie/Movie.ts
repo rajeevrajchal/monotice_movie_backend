@@ -18,6 +18,7 @@ const movieSchema = new Schema(
     language: dEnum(MovieLang, MovieLang.en),
     delete_flag: dEnum(MovieDeleteEnum, MovieDeleteEnum.active),
     status: dEnum(MovieStatus, MovieStatus.list),
+    movie_link: uString,
     uploader: uObject,
     uploaderUUID: uString,
   },
