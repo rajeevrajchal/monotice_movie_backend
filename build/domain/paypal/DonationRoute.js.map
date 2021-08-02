@@ -1,0 +1,1 @@
+{"version":3,"file":"DonationRoute.js","sourceRoot":"","sources":["../../../src/domain/paypal/DonationRoute.ts"],"names":[],"mappings":";;;;;AAAA,oDAA8B;AAC9B,2DAA0E;AAE1E,IAAM,aAAa,GAAG,iBAAO,CAAC,MAAM,EAAE,CAAC;AAEvC,aAAa,CAAC,IAAI,CAAC,EAAE,EAAE,qCAAgB,CAAC,CAAC;AACzC,aAAa,CAAC,GAAG,CAAC,EAAE,EAAE,qCAAgB,CAAC,CAAC;AAExC,kBAAe,aAAa,CAAC"}
